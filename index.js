@@ -33,6 +33,8 @@ const params = {
     lat: 51.49634719159713,
     lon: -0.1421356201171875,
     zoom: 11,
+    width: 800,
+    height: 600,
     mapboxAccessToken: mapboxAccessToken,
     breezometerAPIKey: breezometerAPIKey
 };
@@ -40,7 +42,7 @@ const params = {
 const makeImage = async (data) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.setViewport({width: 812, height: 594});
+    await page.setViewport({width: data.width, height: data.height});
     const url = `/public/map.html?${encodeQueryData(data)}`;
     console.log(url);
     await page.goto(localFile(url));
