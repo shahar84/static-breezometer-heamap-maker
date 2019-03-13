@@ -10,10 +10,15 @@ Run `npm install`
 
 Update in the index file you BreezoMeter API key and MapBox Token.
 
-Update the lat, lon and zoom level.
-
 Run the script `node index.js`
 
+You can run the script via the commend line by passing the lat lon and zoom params.
+
+##Example
+To generate a heat map for London
+```bash
+node index.js --lat=51.49634719159713 --lon=-0.1421356201171875 --zoom=8
+```
 
 ### Prerequisites
 
