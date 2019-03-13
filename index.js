@@ -7,6 +7,29 @@ const mapboxAccessToken = '<Your MapBox access token>';
 const localFile = (filePath) => `file://${process.cwd()}/${filePath}`;
 const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
+const getArgs  = () =>{
+    const args = {};
+    process.argv
+        .slice(2, process.argv.length)
+        .forEach( arg => {
+            // long arg
+            if (arg.slice(0,2) === '--') {
+                const longArg = arg.split('=')
+                args[longArg[0].slice(2,longArg[0].length)] = longArg[1]
+            }
+            // flags
+            else if (arg[0] === '-') {
+                const flags = arg.slice(1,arg.length).split('')
+                flags.forEach(flag => {
+                    args[flag] = true
+                })
+            }
+        });
+    return args
+}
+
+
+
 const getAqi = async (lat, lon) => {
     const url = `https://api.breezometer.com/air-quality/v2/current-conditions?lat=${lat}&lon=${lon}&key=${breezometerAPIKey}`;
     return axios.get(url)
@@ -30,8 +53,8 @@ const encodeQueryData = (data) => {
 };
 
 const params = {
-    lat: 51.49634719159713,
-    lon: -0.1421356201171875,
+    lat: null,
+    lon: null,
     zoom: 11,
     width: 800,
     height: 600,
@@ -52,6 +75,9 @@ const makeImage = async (data) => {
 };
 
 const run = async () => {
+    const args = getArgs();
+    const data = {...params, ...args};
+    if (!data.lat || !data.lon) throw new Error('Lat and Lon params are mandatory');
     params.aqi = await getAqi(params.lat, params.lon);
     await makeImage(params)
 };
