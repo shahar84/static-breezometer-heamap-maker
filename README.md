@@ -8,7 +8,7 @@ Clone the repo to your machine.
 
 Run `npm install`
 
-Update in the index file you BreezoMeter API key and MapBox Token.
+Update in the *index.js* file you __BreezoMeter API key__ and __MapBox Token__.
 
 Run the script `node index.js`
 

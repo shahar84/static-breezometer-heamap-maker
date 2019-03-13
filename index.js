@@ -1,25 +1,25 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 
-const breezometerAPIKey = `<Your breezometer API key>`;
-const mapboxAccessToken = '<Your MapBox access token>';
+const breezometerAPIKey = ``; //Your breezometer API key
+const mapboxAccessToken = ``; // Your MapBox Access Token
 
 const localFile = (filePath) => `file://${process.cwd()}/${filePath}`;
 const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
-const getArgs  = () =>{
+const getArgs = () => {
     const args = {};
     process.argv
         .slice(2, process.argv.length)
-        .forEach( arg => {
+        .forEach(arg => {
             // long arg
-            if (arg.slice(0,2) === '--') {
+            if (arg.slice(0, 2) === '--') {
                 const longArg = arg.split('=')
-                args[longArg[0].slice(2,longArg[0].length)] = longArg[1]
+                args[longArg[0].slice(2, longArg[0].length)] = longArg[1]
             }
             // flags
             else if (arg[0] === '-') {
-                const flags = arg.slice(1,arg.length).split('')
+                const flags = arg.slice(1, arg.length).split('')
                 flags.forEach(flag => {
                     args[flag] = true
                 })
@@ -27,7 +27,6 @@ const getArgs  = () =>{
         });
     return args
 }
-
 
 
 const getAqi = async (lat, lon) => {
@@ -74,11 +73,15 @@ const makeImage = async (data) => {
     await browser.close();
 };
 
-const run = async () => {
+const main = async () => {
     const args = getArgs();
     const data = {...params, ...args};
     if (!data.lat || !data.lon) throw new Error('Lat and Lon params are mandatory');
+    if (!data.breezometerAPIKey) throw new Error('The breezometerAPIKey is mandatory');
+    if (!data.mapboxAccessToken) throw new Error('The mapboxAccessToken API Key is mandatory');
     data.aqi = await getAqi(data.lat, data.lon);
     await makeImage(data)
 };
-run();
+
+main();
+
