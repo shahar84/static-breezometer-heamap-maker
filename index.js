@@ -78,7 +78,7 @@ const run = async () => {
     const args = getArgs();
     const data = {...params, ...args};
     if (!data.lat || !data.lon) throw new Error('Lat and Lon params are mandatory');
-    params.aqi = await getAqi(params.lat, params.lon);
-    await makeImage(params)
+    data.aqi = await getAqi(data.lat, data.lon);
+    await makeImage(data)
 };
 run();
