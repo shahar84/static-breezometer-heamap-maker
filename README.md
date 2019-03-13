@@ -19,6 +19,8 @@ To generate a heat map for London
 ```bash
 node index.js --lat=51.49634719159713 --lon=-0.1421356201171875 --zoom=8
 ```
+## More options
+You can also set the size of the image in pixes by passing `--width` and `--height` flags
 
 ### Prerequisites
 
